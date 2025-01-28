@@ -39,7 +39,8 @@ public class Abbonamento {
         this.isValidated = true;
         this.dataDiEmissione = LocalDate.now();
         this.dataDiScadenza = getDataDiScadenza(tipoAbbonamento);
-        this.tessera = tessera;
+        this.tessera = null;
+        this.utente = tessera.getUtente();
     }
 
     public long getId() {
