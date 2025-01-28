@@ -6,7 +6,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.example.dao.*;
 import org.example.entities.*;
+import org.example.enumerations.StatoMezzo;
 import org.example.enumerations.TipoAbbonamento;
+import org.example.enumerations.TipoMezzo;
 
 public class Main
 {
@@ -19,6 +21,8 @@ public class Main
     public static AbbonamentoDAO abbonamentoDAO = new AbbonamentoDAO(em); // gestione degli abbonamenti
     public static BigliettoDAO bigliettoDAO = new BigliettoDAO(em); // gestione dei biglietti
     public static TesseraDAO tesseraDAO = new TesseraDAO(em); // gestione delle tessere
+    public static MezzoDAO mezzoDAO = new MezzoDAO(em);
+
 
     public static Faker fk = new Faker();
 
@@ -32,6 +36,12 @@ public class Main
 
         //Abbonamento a1 = new Abbonamento(TipoAbbonamento.SETTIMANALE, d1, t1);
         //abbonamentoDAO.save(a1);
+
+        Mezzo m1 = new Mezzo(TipoMezzo.AUTOBUS, 100, StatoMezzo.IN_SERVIZIO);
+        mezzoDAO.save(m1);
+
+        Mezzo m2 = new Mezzo(TipoMezzo.TRAM, 50, StatoMezzo.IN_SERVIZIO);
+        mezzoDAO.save(m2);
 
     }
 
