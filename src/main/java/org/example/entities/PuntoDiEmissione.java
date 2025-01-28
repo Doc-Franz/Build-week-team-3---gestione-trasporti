@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "punti_di_emissione")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // tutti i punti di emissione saranno elencati in una singola tabella
 @DiscriminatorColumn(name = "punto_di_emissione")
+@NamedQuery(name = "findEmissionPoints", query = "SELECT pe FROM PuntoDiEmissione pe")
 
 public abstract class PuntoDiEmissione {
 
@@ -16,7 +17,6 @@ public abstract class PuntoDiEmissione {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
     private String nome;
-    protected boolean isActive; // verifica se il punto di emissione è attivo o meno
 
     @OneToMany(mappedBy = "puntoDiEmissione")
     protected List<Abbonamento> listaAbbonamenti = new ArrayList<>(); // abbonamenti disponibili nel punto di emissione
@@ -28,7 +28,6 @@ public abstract class PuntoDiEmissione {
 
     public PuntoDiEmissione(String nome) {
         this.nome = nome;
-        this.isActive = true;
         this.listaAbbonamenti = new ArrayList<>();
         this.listaBiglietti = new ArrayList<>();
     }
@@ -47,14 +46,6 @@ public abstract class PuntoDiEmissione {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public List<Abbonamento> getListaAbbonamenti() {
@@ -78,7 +69,6 @@ public abstract class PuntoDiEmissione {
         return "PuntoDiEmissione{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", isActive=" + isActive +
                 '}';
     }
 }
