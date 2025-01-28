@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "biglietti")
+@NamedQuery(name = "numberOfTickets", query = "SELECT b FROM Biglietto b WHERE b.puntoDiEmissione.id = :puntoDiEmissione_id " +
+        "AND b.dataDiEmissione <= :dataFinePeriodo") // restituisce il numero di biglietti/abbonamenti venduti in un punto di emissione
 
 public class Biglietto {
 
@@ -13,11 +15,8 @@ public class Biglietto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate dataDiEmissione;
-    private LocalDate dataDiObliterazione;
-    private LocalDate dataDiScadenza;
-    private boolean isValidated; // verifica che il biglietto sia validato o meno
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
@@ -29,10 +28,7 @@ public class Biglietto {
 
     public Biglietto(PuntoDiEmissione puntoDiEmissione) {
         this.puntoDiEmissione = puntoDiEmissione;
-        this.dataDiEmissione = LocalDate.now();
-        this.dataDiObliterazione = LocalDate.now();
-        this.dataDiScadenza = dataDiObliterazione.plusDays(1);
-        this.isValidated = false;
+        this.dataDiEmissione = getDataDiEmissione();
     }
 
     public long getId() {
@@ -47,32 +43,8 @@ public class Biglietto {
         return dataDiEmissione;
     }
 
-    public void setDataDiEmissione(LocalDate dataDiEmissione) {
-        this.dataDiEmissione = dataDiEmissione;
-    }
-
-    public LocalDate getDataDiObliterazione() {
-        return dataDiObliterazione;
-    }
-
-    public void setDataDiObliterazione(LocalDate dataDiObliterazione) {
-        this.dataDiObliterazione = dataDiObliterazione;
-    }
-
-    public LocalDate getDataDiScadenza() {
-        return dataDiScadenza;
-    }
-
-    public void setDataDiScadenza(LocalDate dataDiScadenza) {
-        this.dataDiScadenza = dataDiScadenza;
-    }
-
-    public boolean isValidated() {
-        return isValidated;
-    }
-
-    public void setValidated(boolean validated) {
-        isValidated = validated;
+    public void setDataDiEmissione() {
+        this.dataDiEmissione = LocalDate.now().plusDays((long) (Math.random() * 30));
     }
 
     public Utente getUtente() {
@@ -96,9 +68,6 @@ public class Biglietto {
         return "Biglietto{" +
                 "id=" + id +
                 ", dataDiEmissione=" + dataDiEmissione +
-                ", dataDiObliterazione=" + dataDiObliterazione +
-                ", dataDiScadenza=" + dataDiScadenza +
-                ", isValidated=" + isValidated +
                 '}';
     }
 }

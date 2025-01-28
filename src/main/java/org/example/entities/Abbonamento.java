@@ -15,11 +15,10 @@ public class Abbonamento {
     private long id;
     @Enumerated(EnumType.STRING)
     private TipoAbbonamento tipoAbbonamento;
-    private boolean isValidated; // verifica se l'abbonamento è ancora valido
     private LocalDate dataDiEmissione;
     private LocalDate dataDiScadenza;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
@@ -36,7 +35,6 @@ public class Abbonamento {
     public Abbonamento(TipoAbbonamento tipoAbbonamento, PuntoDiEmissione puntoDiEmissione, Tessera tessera) {
         this.tipoAbbonamento = tipoAbbonamento;
         this.puntoDiEmissione = puntoDiEmissione;
-        this.isValidated = true;
         this.dataDiEmissione = LocalDate.now();
         this.dataDiScadenza = getDataDiScadenza(tipoAbbonamento);
         this.tessera = null;
@@ -57,14 +55,6 @@ public class Abbonamento {
 
     public void setTipoAbbonamento(TipoAbbonamento tipoAbbonamento) {
         this.tipoAbbonamento = tipoAbbonamento;
-    }
-
-    public boolean isValidated() {
-        return isValidated;
-    }
-
-    public void setValidated(boolean validated) {
-        isValidated = validated;
     }
 
     public LocalDate getDataDiEmissione() {
@@ -117,7 +107,6 @@ public class Abbonamento {
         return "Abbonamento{" +
                 "id=" + id +
                 ", tipoAbbonamento=" + tipoAbbonamento +
-                ", isValidated=" + isValidated +
                 ", dataDiEmissione=" + dataDiEmissione +
                 ", dataDiScadenza=" + dataDiScadenza +
                 '}';

@@ -16,4 +16,8 @@ public class PuntoDiEmissioneDAO {
         em.persist(pe);
         em.getTransaction().commit();
     }
+
+    public PuntoDiEmissione findById(int id){
+        return em.find(PuntoDiEmissione.class, id);
+    }
 }

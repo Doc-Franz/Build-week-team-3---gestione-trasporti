@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "utenti")
+@NamedQuery(name = "findUsers", query = "SELECT u FROM Utente u")
 
 public class Utente {
 
@@ -25,11 +26,11 @@ public class Utente {
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
 
-    @OneToMany(mappedBy = "utente") // un utente può fare più biglietti
-    private List<Biglietto> listaBiglietti;
+    @OneToOne(mappedBy = "utente")
+    private Biglietto biglietto;
 
-    @OneToMany(mappedBy = "utente") // un utente può fare più abbonamenti
-    private List<Abbonamento> listaAbbonamenti;
+    @OneToOne(mappedBy = "utente")
+    private Abbonamento abbonamento;
 
     public Utente() {};
 
@@ -39,8 +40,8 @@ public class Utente {
         this.email = email;
         this.eta = eta;
         this.tessera = null;
-        this.listaBiglietti = new ArrayList<>();
-        this.listaAbbonamenti = new ArrayList<>();
+        this.biglietto = getBiglietto();
+        this.abbonamento = getAbbonamento();
     }
 
     public long getId() {
@@ -91,20 +92,20 @@ public class Utente {
         this.tessera = tessera;
     }
 
-    public List<Biglietto> getListaBiglietti() {
-        return listaBiglietti;
+    public Biglietto getBiglietto() {
+        return biglietto;
     }
 
-    public void setListaBiglietti(List<Biglietto> listaBiglietti) {
-        this.listaBiglietti = listaBiglietti;
+    public void setBiglietto(Biglietto biglietto) {
+        this.biglietto = biglietto;
     }
 
-    public List<Abbonamento> getListaAbbonamenti() {
-        return listaAbbonamenti;
+    public Abbonamento getAbbonamento() {
+        return abbonamento;
     }
 
-    public void setListaAbbonamenti(List<Abbonamento> listaAbbonamenti) {
-        this.listaAbbonamenti = listaAbbonamenti;
+    public void setAbbonamento(Abbonamento abbonamento) {
+        this.abbonamento = abbonamento;
     }
 
     @Override

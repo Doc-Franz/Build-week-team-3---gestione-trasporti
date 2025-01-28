@@ -15,7 +15,6 @@ public class RivenditoreAutorizzato extends PuntoDiEmissione {
     public String toString() {
         return "RivenditoreAutorizzato{" +
                 "id=" + id +
-                ", isActive=" + isActive +
                 '}';
     }
 }
